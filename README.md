@@ -6,6 +6,9 @@ Docker for reproducible setup and execution. Please find my proposal for a compl
 
 While I ensured to stick to the suggested time limit of this task, I also acknowledge that this repository has multiple areas for improvement - code re-factoring, module re-naming, and including a testing infrastructure will be critical for facilitating contributions, and ensuring robustness to errors.  
 
+![DataArchitectureDiagram](https://github.com/user-attachments/assets/937335f1-17d3-4939-b3a6-5d88e88b1c30)
+
+
 ## Project Structure
 
 - **docker-compose.yaml**: Configures all services including Zookeeper, Kafka, PostgreSQL, the mock API, and the Python
