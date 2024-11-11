@@ -2,7 +2,9 @@
 
 This repository contains a minimal viable product (MVP) for ingesting football statistics data from a mock API,
 processing it through a Kafka queue, and storing it in a PostgreSQL database. All services are containerized using
-Docker for reproducible setup and execution.
+Docker for reproducible setup and execution. Please find my proposal for a complete data architecture (pdf), and data architecture diagrams (png) included in this repository. 
+
+While I ensured to stick to the suggested time limit of this task, I also acknowledge that this repository has multiple areas for improvement - code re-factoring, module re-naming, and including a testing infrastructure will be critical for facilitating contributions, and ensuring robustness to errors.  
 
 ## Project Structure
 
