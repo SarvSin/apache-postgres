@@ -2,24 +2,20 @@ import threading
 import time
 import json
 import requests
-import logging
+
+from kafka import KafkaProducer
 
 from mid_tier.kafka_consumer import consume_messages
 from mid_tier.kafka_producer import create_kafka_producer
-from utils import create_postgres_connection, setup_postgres_table, fetch_all_rows
+from utils import setup_postgres_table, fetch_all_rows, logger
 
 from config.settings import (
     MOCK_API_URL,
     KAFKA_TOPIC,
 )
 
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
-)
-logger = logging.getLogger(__name__)
 
-
-def ingest_data(producer, topic=KAFKA_TOPIC):
+def ingest_data(producer: KafkaProducer, topic=KAFKA_TOPIC) -> None:
     """Fetch data from the mock API and send it to Kafka"""
     try:
         # Fetch data from the mock API
@@ -38,20 +34,22 @@ def ingest_data(producer, topic=KAFKA_TOPIC):
         logger.error(f"Failed to ingest data: {e}")
 
 
-def main():
+def main() -> None:
     producer = create_kafka_producer()
     consumer_thread = threading.Thread(target=consume_messages)
     consumer_thread.start()
 
-    with create_postgres_connection() as conn:
-        setup_postgres_table(conn)
+    # Ensure table available
+    setup_postgres_table()
 
+    # Simulate querying external API every five seconds
     counter = 0
     while True:
         ingest_data(producer)
         counter += 1
         time.sleep(5)
 
+        # Every five instances of ingested data, log all rows
         if counter % 5 == 0:
             fetch_all_rows()
 
